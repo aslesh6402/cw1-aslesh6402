@@ -1,3 +1,22 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION["user_id"])) {
+
+    $mysqli = require _DIR_ . "/db.php";
+
+
+    $sql = "SELECT * FROM user
+            WHERE id = {$_SESSION["user_id"]}";
+
+    $result = $mysqli->query($sql);
+
+    $user = $result->fetch_assoc();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,13 +85,14 @@
                         <a href="#contact" class="navbar-link" data-nav-link>Contact</a>
                     </li>
 
-                    <li>
-                        <a href="login.php" class="navbar-link" data-nav-link>Login</a>
-                    </li>
+                    <?php if (isset($user)): ?>
 
-                    <li>
-                        <a href="signup.php" class="navbar-link" data-nav-link>SignUp</a>
-                    </li>
+                       <li>Hello <?=htmlspecialchars($user["username"])?></li>
+                        <li><a href="logout.php">Log out</a></li>
+<?php else: ?>
+<li><a href="login.php">Login</a></li>
+<li><a href="signup.html">Sign Up</a></li>
+<?php endif;?>
 
 
 
@@ -98,7 +118,7 @@
 
                     <div class="hero-banner">
 
-                        <img src="assets/images/8.jpg" alt="" width="400" height="464" loading="lazy" alt="" class="img-cover">
+                        <img src="assets/images/2.jpg" alt="" width="400" height="464" loading="lazy" alt="" class="img-cover">
                         <div class="elem elem-1">
                             <p class="elem-title">2</p>
 
